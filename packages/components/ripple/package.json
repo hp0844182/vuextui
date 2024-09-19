@@ -1,5 +1,5 @@
 {
-  "name": "@vue-nextui/button",
+  "name": "@vue-nextui/ripple",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -56,7 +56,7 @@
   "scripts": {
     "build": "pnpm type-check && pnpm build-only",
     "build-only": "vite build",
-    "watch": "vite build --watch",
+    "dev": "vite build --watch",
     "type-check": "vue-tsc -p tsconfig.check.json --noEmit",
     "type-gen": "vue-tsc --declaration  --emitDeclarationOnly",
     "test": "vitest",
@@ -64,13 +64,13 @@
   },
   "typings": "./dist/index.d.ts",
   "peerDependencies": {
+    "@vueuse/motion": "^2.2.5",
     "vue": "^3.5.0"
   },
   "dependencies": {
-    "@vue-nextui/ripple": "workspace:*",
-    "@vue-nextui/theme": "workspace:*",
     "radix-vue": "^1.9.5"
   },
   "devDependencies": {
+    "@vueuse/motion": "^2.2.5"
   }
 }

@@ -5,7 +5,7 @@ import { nextui } from '@vue-nextui/theme'
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
-  content: ['../packages/components/*/*/src/**/*.vue', '../packages/theme/src/**/*.ts'],
+  content: ['../packages/components/**/*.vue', '../packages/theme/src/**/*.ts'],
   theme: {
     extend: {
       colors: {

@@ -1,5 +1,5 @@
 {
-  "name": "@vue-nextui/button",
+  "name": "@vue-nextui/spinner",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -67,10 +67,6 @@
     "vue": "^3.5.0"
   },
   "dependencies": {
-    "@vue-nextui/ripple": "workspace:*",
-    "@vue-nextui/theme": "workspace:*",
-    "radix-vue": "^1.9.5"
-  },
-  "devDependencies": {
+    "@vue-nextui/theme": "workspace:*"
   }
 }

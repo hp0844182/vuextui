@@ -7,6 +7,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "types": ["@vitest/browser/providers/playwright"],
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,

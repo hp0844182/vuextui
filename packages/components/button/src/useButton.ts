@@ -2,20 +2,22 @@ import type { AriaAttributes, ButtonHTMLAttributes } from 'vue'
 import { computed, mergeProps, toRefs } from 'vue'
 import type { ButtonVariantProps } from '@vue-nextui/theme'
 import type { PrimitiveProps } from 'radix-vue'
+import type { PressEvent } from './usePress'
 import { usePress } from './usePress'
 import { useFocusRing } from './useFocusRing'
 import { dataAttr } from './utils'
 import { useHover } from './useHover'
+import { useRipple } from '../../ripple/src'
 
 type CombinedProps = /* @vue-ignore */ Omit<AriaAttributes, 'color'> & Omit<ButtonHTMLAttributes, 'color'>
 export interface ButtonProps extends
   CombinedProps,
   ButtonVariantProps,
   PrimitiveProps {
-  onPress?: (e: Event) => void
-  onPressStart?: (e: Event) => void
-  onPressEnd?: (e: Event) => void
-  onPressUp?: (e: Event) => void
+  onPress?: (e: PressEvent) => void
+  onPressStart?: (e: PressEvent) => void
+  onPressEnd?: (e: PressEvent) => void
+  onPressUp?: (e: PressEvent) => void
   onPressChange?: (isPressed: boolean) => void
   preventFocusOnPress?: boolean
   allowFocusWhenDisabled?: boolean
@@ -86,6 +88,8 @@ function useButton(props: ButtonProps) {
   })
 
   const { focusProps, isFocused, isFocusVisible } = useFocusRing()
+
+  const { onClear, onClick, ripples } = useRipple()
   const buttonProps = computed(() => (mergeProps(pressProps, additionalProps.value, {
     'aria-haspopup': props['aria-haspopup'],
     'aria-expanded': props['aria-expanded'],
@@ -98,6 +102,7 @@ function useButton(props: ButtonProps) {
     'data-hover': dataAttr(isHovered.value),
     'data-loading': dataAttr(isLoading?.value),
     'onClick': (e: MouseEvent) => {
+      onClick(e)
       if (deprecatedOnClick?.value) {
         deprecatedOnClick.value(e)
         console.warn('onClick is deprecated, please use onPress')
@@ -108,6 +113,8 @@ function useButton(props: ButtonProps) {
   return {
     isPressed,
     buttonProps,
+    ripples,
+    onClear,
   }
 }
 

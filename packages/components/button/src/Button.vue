@@ -6,16 +6,18 @@ import { Primitive } from 'radix-vue'
 import { useButton } from './useButton'
 import type { ButtonVariantProps } from '@vue-nextui/theme'
 import { button } from '@vue-nextui/theme'
+import { Ripple } from '@vue-nextui/ripple'
+import type { PressEvent } from './usePress'
 
 type CombinedProps = /* @vue-ignore */ Omit<AriaAttributes, 'color'> & Omit<ButtonHTMLAttributes, 'color'>
 export interface ButtonProps extends
   CombinedProps,
   /* @vue-ignore */ ButtonVariantProps,
   PrimitiveProps {
-  onPress?: (e: Event) => void
-  onPressStart?: (e: Event) => void
-  onPressEnd?: (e: Event) => void
-  onPressUp?: (e: Event) => void
+  onPress?: (e: PressEvent) => void
+  onPressStart?: (e: PressEvent) => void
+  onPressEnd?: (e: PressEvent) => void
+  onPressUp?: (e: PressEvent) => void
   onPressChange?: (isPressed: boolean) => void
   preventFocusOnPress?: boolean
   allowFocusWhenDisabled?: boolean
@@ -39,14 +41,14 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 })
 
 const domRef = ref<HTMLElement | null>(null)
-const { buttonProps } = useButton(props)
+const { buttonProps, onClear, ripples } = useButton(props)
 
 const cls = computed(() => {
   return button({
     color: props.color,
     variant: props.variant,
     disableAnimation: props.disableAnimation,
-    isDisabled: props.isDisabled,
+    isDisabled: props.isDisabled || props.isLoading,
     size: props.size,
     radius: props.radius,
     fullWidth: props.fullWidth,
@@ -68,5 +70,6 @@ const cls = computed(() => {
     <slot name="startContent" />
     <slot />
     <slot name="endContent" />
+    <Ripple :ripples="ripples" @clear="onClear" />
   </Primitive>
 </template>
