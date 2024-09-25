@@ -1,60 +1,49 @@
-// import type { ComputedRef } from 'vue'
-// import { computed, ref } from 'vue'
-// import type { SlotsToClasses, SpinnerSlots, SpinnerVariantProps } from '@vue-nextui/theme'
-// import { spinner } from '@vue-nextui/theme'
-// // import { clsx, objectToDeps } from '@nextui-org/shared-utils'
+import { type SlotsToClasses, type SpinnerReturnType, type SpinnerSlots, type SpinnerVariantProps, spinner } from '@vue-nextui/theme'
 
-// interface Props extends HTMLNextUIProps<'div'> {
-//   /**
-//    * Spinner标签，如果传递将用作`aria-label`。
-//    */
-//   label?: string
-//   /**
-//    * 类名或类列表，用于更改元素的类名。
-//    * 如果传递了`className`，它将被添加到基础插槽。
-//    *
-//    * @example
-//    * ```ts
-//    * <Spinner :class="{
-//    *    base: 'base-classes',
-//    *    wrapper: 'wrapper-classes',
-//    *    circle1: 'circle1-classes',
-//    *    circle2: 'circle2-classes',
-//    *    label: 'label-classes'
-//    * }" />
-//    * ```
-//    */
-//   class?: SlotsToClasses<SpinnerSlots>
-// }
+import type { ComputedRef } from 'vue'
+import { computed, useAttrs } from 'vue'
 
-// export type UseSpinnerProps = Props & SpinnerVariantProps
+export interface SpinnerProps extends /* @vue-ignore */ SpinnerVariantProps {
+  label?: string
+  classNames?: SlotsToClasses<SpinnerSlots>
+}
 
-// export function useSpinner(props: UseSpinnerProps) {
-//   const { children, class: className, label: labelProp, ...otherProps } = mappedProps
+export function useSpinner(props: SpinnerProps): {
+  slots: ComputedRef<SpinnerReturnType>
+  baseProps: ComputedRef<Record<string, any>>
+} {
+  const attrs = useAttrs() as any
+  const slots = computed(() => {
+    return spinner({
+      color: attrs.color,
+      size: attrs.size,
+      labelColor: attrs.labelColor,
+    })
+  })
 
-//   const slots = computed(() => spinner({ ...variantProps }))
+  const ariaLabel = computed(() => {
+    if (props.label) {
+      return props.label
+    }
+    return attrs['aria-label'] ?? 'Loading...'
+  })
 
-//   const baseStyles = computed(() => clsx(props.class?.base, className))
+  const baseProps = computed(() => {
+    return {
+      ...attrs as any,
+      'size': undefined,
+      'color': undefined,
+      'labelColor': undefined,
+      'classNames': undefined,
+      'aria-label': ariaLabel.value,
+      'class': slots.value.base({
+        className: attrs.class as string,
+      }),
+    }
+  })
 
-//   const label = ref(labelProp || children)
-
-//   const ariaLabel = computed(() => {
-//     if (label.value && typeof label.value === 'string') {
-//       return label.value
-//     }
-
-//     return !otherProps['aria-label'] ? '加载中' : ''
-//   })
-
-//   const getSpinnerProps: ComputedRef<PropGetter> = computed(() => () => ({
-//     'aria-label': ariaLabel.value,
-//     'class': slots.value.base({
-//       class: baseStyles.value,
-//     }),
-//     ...otherProps,
-//   }))
-
-//   return { label, slots, class: props.class, getSpinnerProps }
-// }
-
-// export type UseSpinnerReturn = ReturnType<typeof useSpinner>
+  return {
+    slots,
+    baseProps,
+  }
+}

@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
+import { name } from './package.json'
 
 const projectRootDir = resolve(__dirname)
 
@@ -24,7 +25,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      name: 'radix-vue',
+      name,
       fileName: (format, name) => {
         return `${name}.${format === 'es' ? 'js' : 'umd.cjs'}`
       },
@@ -35,7 +36,9 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library (Vue)
-      external: ['vue',
+      external: [
+        'vue',
+        '@vue-nextui/theme',
       ],
       output: {
         // Provide global variables to use in the UMD build

@@ -1,47 +1,21 @@
 <script setup lang="ts">
-import type { AriaAttributes, ButtonHTMLAttributes } from 'vue'
 import { computed, ref } from 'vue'
-import type { PrimitiveProps } from 'radix-vue'
 import { Primitive } from 'radix-vue'
+import type { ButtonProps } from './useButton'
 import { useButton } from './useButton'
-import type { ButtonVariantProps } from '@vue-nextui/theme'
 import { button } from '@vue-nextui/theme'
 import { Ripple } from '@vue-nextui/ripple'
-import type { PressEvent } from './usePress'
+import { Spinner } from '@vue-nextui/spinner'
 
-type CombinedProps = /* @vue-ignore */ Omit<AriaAttributes, 'color'> & Omit<ButtonHTMLAttributes, 'color'>
-export interface ButtonProps extends
-  CombinedProps,
-  /* @vue-ignore */ ButtonVariantProps,
-  PrimitiveProps {
-  onPress?: (e: PressEvent) => void
-  onPressStart?: (e: PressEvent) => void
-  onPressEnd?: (e: PressEvent) => void
-  onPressUp?: (e: PressEvent) => void
-  onPressChange?: (isPressed: boolean) => void
-  preventFocusOnPress?: boolean
-  allowFocusWhenDisabled?: boolean
-  href?: string
-  target?: string
-  rel?: string
-  isLoading?: boolean
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
-  variant?: 'solid' | 'bordered' | 'light' | 'flat' | 'faded' | 'shadow' | 'ghost'
-  disableAnimation?: boolean
-  isDisabled?: boolean
-  fullWidth?: boolean
-  isIconOnly?: boolean
-  size?: 'sm' | 'md' | 'lg'
-  radius?: 'none' | 'sm' | 'md' | 'lg' | 'full'
-  isInGroup?: boolean
-}
 const props = withDefaults(defineProps<ButtonProps>(), {
   as: 'button',
   asChild: false,
+  size: 'md',
+  spinnerPlacement: 'start',
 })
 
 const domRef = ref<HTMLElement | null>(null)
-const { buttonProps, onClear, ripples } = useButton(props)
+const { buttonProps, onClear, ripples, spinnerSize } = useButton(props)
 
 const cls = computed(() => {
   return button({
@@ -68,8 +42,14 @@ const cls = computed(() => {
     :class="cls"
   >
     <slot name="startContent" />
+    <slot v-if="isLoading && spinnerPlacement === 'start'" name="spinner">
+      <Spinner color="current" :size="spinnerSize" />
+    </slot>
     <slot />
+    <slot v-if="isLoading && spinnerPlacement === 'end'" name="spinner">
+      <Spinner color="current" :size="spinnerSize" />
+    </slot>
     <slot name="endContent" />
-    <Ripple :ripples="ripples" @clear="onClear" />
+    <Ripple v-if="!disableRipple" :ripples="ripples" @clear="onClear" />
   </Primitive>
 </template>

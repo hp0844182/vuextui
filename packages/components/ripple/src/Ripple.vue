@@ -29,7 +29,7 @@ const duration = (ripple: RippleType) => clamp(0.01 * ripple.size, 0.2, ripple.s
     v-motion
     :initial="{
       scale: 0,
-      opacity: 0.35,
+      opacity: 0.3,
     }"
     :enter="{
       scale: 2,

@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@vue-nextui/ripple": "workspace:*",
+    "@vue-nextui/spinner": "workspace:*",
     "@vue-nextui/theme": "workspace:*",
     "radix-vue": "^1.9.5"
   },

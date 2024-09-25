@@ -8,11 +8,12 @@ import { useFocusRing } from './useFocusRing'
 import { dataAttr } from './utils'
 import { useHover } from './useHover'
 import { useRipple } from '../../ripple/src'
+import type { SpinnerProps } from '@vue-nextui/spinner'
 
 type CombinedProps = /* @vue-ignore */ Omit<AriaAttributes, 'color'> & Omit<ButtonHTMLAttributes, 'color'>
 export interface ButtonProps extends
   CombinedProps,
-  ButtonVariantProps,
+  /* @vue-ignore */ButtonVariantProps,
   PrimitiveProps {
   onPress?: (e: PressEvent) => void
   onPressStart?: (e: PressEvent) => void
@@ -34,6 +35,8 @@ export interface ButtonProps extends
   size?: 'sm' | 'md' | 'lg'
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'full'
   isInGroup?: boolean
+  spinnerPlacement?: 'start' | 'end'
+  disableRipple?: boolean
 }
 
 function useButton(props: ButtonProps) {
@@ -71,6 +74,16 @@ function useButton(props: ButtonProps) {
       'aria-disabled': !isDisabled?.value || as?.value === 'input' ? undefined : isDisabled?.value,
       'rel': as?.value === 'a' ? rel?.value : undefined,
     }
+  })
+
+  const spinnerSize = computed(() => {
+    const buttonSpinnerSizeMap: Record<string, SpinnerProps['size']> = {
+      sm: 'sm',
+      md: 'sm',
+      lg: 'md',
+    }
+
+    return buttonSpinnerSizeMap[props.size || 'md']
   })
 
   // eslint-disable-next-line ts/ban-ts-comment
@@ -115,6 +128,7 @@ function useButton(props: ButtonProps) {
     buttonProps,
     ripples,
     onClear,
+    spinnerSize,
   }
 }
 

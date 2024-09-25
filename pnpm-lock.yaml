@@ -156,6 +156,9 @@ importers:
       '@vue-nextui/ripple':
         specifier: workspace:*
         version: link:../ripple
+      '@vue-nextui/spinner':
+        specifier: workspace:*
+        version: link:../spinner
       '@vue-nextui/theme':
         specifier: workspace:*
         version: link:../../theme
