@@ -185,10 +185,10 @@ watch(hasDynamicContent, () => {
     </Variant>
     <Variant title="icon only">
       <div className="flex gap-4 items-center py-4">
-        <Button color="danger" is-icon-only>
+        <Button color="danger" :is-icon-only="true">
           <CameraIcon class="w-6 h-6" />
         </Button>
-        <Button color="warning" variant="faded" is-icon-only>
+        <Button color="warning" variant="faded" :is-icon-only="true">
           <CameraIcon class="w-6 h-6" />
         </Button>
       </div>

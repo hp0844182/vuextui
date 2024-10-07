@@ -31,12 +31,11 @@ export interface ButtonProps extends
   disableAnimation?: boolean
   isDisabled?: boolean
   fullWidth?: boolean
-  isIconOnly?: boolean
   size?: 'sm' | 'md' | 'lg'
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'full'
-  isInGroup?: boolean
   spinnerPlacement?: 'start' | 'end'
   disableRipple?: boolean
+  isIconOnly?: ButtonVariantProps['isIconOnly']
 }
 
 function useButton(props: ButtonProps) {

@@ -6,6 +6,7 @@ export type RippleType = {
   y: number
   size: number
 }
+let id = 0
 
 export function getUniqueID(prefix: string) {
   return `${prefix}-${Math.floor(Math.random() * 1000000)}`
@@ -22,7 +23,8 @@ export function useRipple() {
     ripples.value = [
       ...ripples.value,
       {
-        key: getUniqueID(ripples.value.length.toString())!,
+        key: id++,
+        // key: getUniqueID(ripples.value.length.toString())!,
         size,
         x: event.clientX - rect.left - size / 2,
         y: event.clientY - rect.top - size / 2,
@@ -48,5 +50,5 @@ export type UseRippleReturn = ReturnType<typeof useRipple>
  * @returns The clamped value.
  */
 export function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max) * 1000
+  return Math.min(Math.max(value, min), max)
 }
