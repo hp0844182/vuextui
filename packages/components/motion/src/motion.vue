@@ -20,9 +20,9 @@ export interface MotionProps<T extends ElementType = 'div'> extends Options {
   style?: CSSProperties
 }
 
-type ComBindProps = Omit<IntrinsicElementAttributes[T], keyof Options | 'style' | 'as' | 'asChild'>
+type ComBindProps = /* @vue-ignore */ Omit<IntrinsicElementAttributes[T], keyof Options | 'style' | 'as' | 'asChild'>
 
-const props = withDefaults(defineProps<MotionProps<T> & /* @vue-ignore */ ComBindProps>(), {
+const props = withDefaults(defineProps<MotionProps<T> & ComBindProps>(), {
   as: 'div' as T,
   asChild: false,
 } as any) as MotionProps<T>

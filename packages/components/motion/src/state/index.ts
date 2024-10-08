@@ -113,9 +113,10 @@ export function createMotionState(
         if (key === 'transition')
           continue
 
+        // @ts-ignore
         target[key] = variant[
           key as keyof typeof variant
-        ] as any
+        ]
 
         animationOptions[key] = getOptions(
           variant.transition ?? options.transition ?? {},

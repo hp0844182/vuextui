@@ -32,13 +32,13 @@ export const style = {
 export function createStyles(keyframes?: DOMKeyframesDefinition): any {
   const initialKeyframes: any = {}
   const transforms: [string, any][] = []
-
   for (let key in keyframes) {
-    const value = keyframes[key]
+    const value = keyframes[key as keyof typeof keyframes]
 
     if (isTransform(key)) {
-      if (transformAlias[key])
-        key = transformAlias[key as any]
+      if (key in transformAlias) {
+        key = transformAlias[key as keyof typeof transformAlias]
+      }
     }
 
     let initialKeyframe = Array.isArray(value) ? value[0] : value
@@ -49,8 +49,9 @@ export function createStyles(keyframes?: DOMKeyframesDefinition): any {
      */
     const definition = transformDefinitions.get(key)
     if (definition) {
+      // @ts-ignore
       initialKeyframe = isNumber(value)
-        ? definition.toDefaultUnit!(value)
+        ? definition.toDefaultUnit?.(value as number)
         : value
 
       transforms.push([key, initialKeyframe])

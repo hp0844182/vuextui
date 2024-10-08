@@ -33,7 +33,6 @@ const variantProps = computed(() => ({
   size: isDef(props.size) ? props.size : btnGroupCtx?.value?.size,
 }))
 
-console.log('props', props.isIconOnly)
 const cls = computed(() => {
   return button({
     ...variantProps.value,

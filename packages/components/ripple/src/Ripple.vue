@@ -23,8 +23,7 @@ const duration = (ripple: RippleType) => clamp(0.01 * ripple.size, 0.2, ripple.s
       :key="ripple.key"
       as="span"
       :initial="{
-        opacity: 0.35,
-        transform: 'scale(0)',
+        opacity: 0.3,
       }"
       :animate="{
         transform: ['scale(0)', 'scale(2)'],
