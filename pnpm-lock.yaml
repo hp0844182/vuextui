@@ -151,6 +151,21 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.4.10)
 
+  packages/components/accordion:
+    dependencies:
+      '@vue-nextui/shared':
+        specifier: workspace:*
+        version: link:../../shared
+      '@vue-nextui/theme':
+        specifier: workspace:*
+        version: link:../../theme
+      radix-vue:
+        specifier: ^1.9.5
+        version: 1.9.5(vue@3.5.0(typescript@5.5.4))
+      vue:
+        specifier: ^3.5.0
+        version: 3.5.0(typescript@5.5.4)
+
   packages/components/avatar:
     dependencies:
       '@vue-nextui/shared':
